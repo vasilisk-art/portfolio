@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krasnova Vasilisa — Digital Art & Animation</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0F0F0F;
+    --surface: #1A1A2A;
+    --off-white: #F0EDE8;
+    --muted: #888899;
+    --violet: #7B4FFF;
+    --border: rgba(240,237,232,0.1);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--off-white); font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 3rem; background: rgba(15,15,15,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.04em; color: var(--off-white); text-decoration: none; }
+  .nav-logo span { color: var(--violet); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--off-white); }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 5rem; position: relative; overflow: hidden; }
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--violet); margin-bottom: 1.5rem; }
+  .hero-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(3.5rem, 8vw, 8rem); line-height: 0.92; letter-spacing: -0.03em; color: var(--off-white); margin-bottom: 2rem; }
+  .hero-name .accent { color: var(--violet); }
+  .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 420px; margin-bottom: 3rem; line-height: 1.75; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { display: inline-block; background: var(--violet); color: #fff; padding: 0.9rem 2rem; text-decoration: none; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.04em; transition: background 0.2s, transform 0.2s; }
+  .btn-primary:hover { background: #6a3eee; transform: translateY(-2px); }
+  .btn-ghost { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 0.9rem 2rem; text-decoration: none; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.88rem; letter-spacing: 0.04em; transition: border-color 0.2s, color 0.2s; }
+  .btn-ghost:hover { border-color: var(--violet); color: var(--off-white); }
+  .hero-bg-text { position: absolute; right: -1rem; top: 50%; transform: translateY(-50%); font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(8rem, 18vw, 18rem); color: rgba(123,79,255,0.04); pointer-events: none; user-select: none; line-height: 1; }
+
+  /* SECTIONS */
+  section { padding: 7rem 3rem; }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--violet); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+  .section-label::after { content: ''; display: block; width: 40px; height: 1px; background: var(--violet); }
+  .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 3rem; }
+
+  /* DRAWINGS */
+  #drawings { background: var(--black); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 3px; }
+  .gallery-item { aspect-ratio: 1; background: var(--surface); position: relative; overflow: hidden; cursor: pointer; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+  .gallery-item:hover img { transform: scale(1.06); }
+  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,15,15,0.85) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1rem; }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay-text { font-family: 'Syne', sans-serif; font-size: 0.88rem; font-weight: 600; text-transform: capitalize; }
+
+  /* ANIMATION */
+  #animation { background: var(--surface); }
+  .anim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .anim-card { background: var(--black); overflow: hidden; transition: transform 0.3s; }
+  .anim-card:hover { transform: translateY(-4px); }
+  .anim-thumb { aspect-ratio: 16/9; background: #0d0d1a; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .anim-thumb img, .anim-thumb video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .anim-thumb video { cursor: pointer; }
+  .anim-info { padding: 1rem 1.25rem 1.25rem; }
+  .anim-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; text-transform: capitalize; }
+  .anim-meta { font-size: 0.73rem; color: var(--muted); }
+
+  /* ABOUT */
+  #about { background: var(--black); display: grid; grid-template-columns: 300px 1fr; gap: 5rem; align-items: start; }
+  .about-photo-wrap { position: relative; }
+  .about-photo { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
+  .about-photo-placeholder { width: 100%; aspect-ratio: 3/4; background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; border: 2px dashed var(--border); }
+  .about-photo-placeholder span { font-size: 3rem; opacity: 0.25; }
+  .about-photo-accent { position: absolute; bottom: -12px; left: -12px; width: 60px; height: 60px; background: var(--violet); z-index: -1; }
+  .bio { color: var(--muted); line-height: 1.85; font-size: 1rem; margin-bottom: 2.5rem; }
+  .bio strong { color: var(--off-white); font-weight: 500; }
+  .contact-list { display: flex; flex-direction: column; }
+  .contact-item { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: var(--off-white); text-decoration: none; padding: 0.9rem 0; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+  .contact-item:hover { color: var(--violet); }
+  .contact-item:last-child { border-bottom: none; }
+  .contact-icon { color: var(--violet); font-size: 1rem; width: 22px; flex-shrink: 0; }
+
+  /* FOOTER */
+  footer { background: var(--surface); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); }
+
+  /* LIGHTBOX */
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+  .lightbox-close { position: absolute; top: 1.5rem; right: 2rem; background: none; border: none; color: var(--off-white); font-size: 2rem; cursor: pointer; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) { nav { padding: 1.2rem 1.5rem; } section { padding: 5rem 1.5rem; } #about { grid-template-columns: 1fr; gap: 3rem; } .about-photo-wrap { max-width: 260px; } #hero { padding: 8rem 1.5rem 5rem; } }
+  @media (max-width: 600px) { .nav-links { display: none; } footer { flex-direction: column; gap: 0.5rem; text-align: center; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">VASILISA<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#drawings">Drawings</a></li>
+    <li><a href="#animation">Animation</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <p class="hero-eyebrow">Digital Artist & Animator</p>
+  <h1 class="hero-name">Krasnova<br/><span class="accent">Vasilisa</span></h1>
+  <p class="hero-sub">Creating digital worlds through illustration and animation — one frame at a time.</p>
+  <div class="hero-ctas">
+    <a href="#drawings" class="btn-primary">See My Work →</a>
+    <a href="#about" class="btn-ghost">About Me</a>
+  </div>
+  <div class="hero-bg-text">ART</div>
+</section>
+
+<!-- DRAWINGS -->
+<section id="drawings">
+  <p class="section-label">Gallery</p>
+  <h2 class="section-title">Digital Drawings.</h2>
+  <div class="gallery-grid">
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/comic made in photoshop.jpg" alt="Comic made in Photoshop"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Comic made in Photoshop</span></div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/concept art.jpg" alt="Concept Art"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Concept Art</span></div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/consept art (2).jpg" alt="Concept Art 2"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Concept Art 2</span></div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/consept art.jpg" alt="Concept Art 3"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Concept Art 3</span></div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/duo consept art.jpg" alt="Duo Concept Art"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Duo Concept Art</span></div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/full-body consept art.jpg" alt="Full-body Concept Art"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Full-body Concept Art</span></div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox(this)">
+      <img src="images/drawings/semi realistic portrait.jpg" alt="Semi-realistic Portrait"/>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">Semi-realistic Portrait</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ANIMATION -->
+<section id="animation">
+  <p class="section-label">Animation</p>
+  <h2 class="section-title">In Motion.</h2>
+  <div class="anim-grid">
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/a girl on a swing.gif" alt="A girl on a swing"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">A girl on a swing</div>
+        <div class="anim-meta">2D Animation</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/head turning.gif" alt="Head turning"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Head turning</div>
+        <div class="anim-meta">2D Animation</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/oc animation.gif" alt="OC Animation"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">OC Animation</div>
+        <div class="anim-meta">2D Animation</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <video src="images/animations/oc animation.mp4" controls loop></video>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">OC Animation</div>
+        <div class="anim-meta">2D Animation · MP4</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <video src="images/animations/oc dancing.mp4" controls loop></video>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">OC Dancing</div>
+        <div class="anim-meta">2D Animation · MP4</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/running cycle.gif" alt="Running Cycle"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Running Cycle</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <video src="images/animations/school year project.mp4" controls></video>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">School Year Project</div>
+        <div class="anim-meta">2D Animation · Project</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/standing up.gif" alt="Standing Up"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Standing Up</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 1.gif" alt="Walking Cycle 1"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 1</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 2.gif" alt="Walking Cycle 2"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 2</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 3.gif" alt="Walking Cycle 3"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 3</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 4.gif" alt="Walking Cycle 4"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 4</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 5.gif" alt="Walking Cycle 5"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 5</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 6.gif" alt="Walking Cycle 6"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 6</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 7.gif" alt="Walking Cycle 7"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 7</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 8.gif" alt="Walking Cycle 8"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 8</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+    <div class="anim-card">
+      <div class="anim-thumb">
+        <img src="images/animations/walking cycle 9.gif" alt="Walking Cycle 9"/>
+      </div>
+      <div class="anim-info">
+        <div class="anim-title">Walking Cycle 9</div>
+        <div class="anim-meta">2D Animation · Cycle study</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-photo-wrap">
+    <!-- Add your photo: replace the placeholder with:
+         <img src="images/photo.jpg" alt="Krasnova Vasilisa" class="about-photo"/> -->
+    <div class="about-photo-placeholder">
+      <span>🙂</span>
+      Your Photo Here
+    </div>
+    <div class="about-photo-accent"></div>
+  </div>
+
+  <div class="about-content">
+    <p class="section-label">About Me</p>
+    <h2 class="section-title">Hi, I'm<br/>Vasilisa.</h2>
+    <p class="bio">
+      I'm <strong>Krasnova Vasilisa</strong>, a digital artist and animator.
+      I create illustrations and animations, with a focus on character design and movement studies.
+      My work explores storytelling through 2D animation and digital drawing.<br/><br/>
+      Feel free to reach out — I'm always happy to connect!
+    </p>
+    <div class="contact-list">
+      <a href="mailto:vasilisa.krasnoff@gmail.com" class="contact-item">
+        <span class="contact-icon">✉</span>
+        vasilisa.krasnoff@gmail.com
+      </a>
+      <a href="tel:+421951929974" class="contact-item">
+        <span class="contact-icon">📞</span>
+        +421 951 929 974
+      </a>
+      <a href="https://github.com/vasilisk-art" target="_blank" class="contact-item">
+        <span class="contact-icon">🐙</span>
+        github.com/vasilisk-art
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© <span id="year"></span> Krasnova Vasilisa. All rights reserved.</span>
+  <span>Digital Art & Animation</span>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt=""/>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  function openLightbox(item) {
+    const img = item.querySelector('img');
+    if (!img) return;
+    document.getElementById('lightboxImg').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
